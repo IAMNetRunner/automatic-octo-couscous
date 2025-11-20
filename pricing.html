@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Andrei Iacobescu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-yellow: #f3e600;
+            --neon-pink: #c5003c;
+            --neon-red: #880425;
+            --neon-cyan: #55ead4;
+            --dark-bg: #000000;
+            --darker-bg: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.7);
+            --text-primary: #f3e600;
+            --text-secondary: #55ead4;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(197, 0, 60, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(243, 230, 0, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 20%, rgba(85, 234, 212, 0.04) 0%, transparent 50%),
+                        #000000;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(197, 0, 60, 0.025) 0px, transparent 1px, transparent 40px, rgba(197, 0, 60, 0.025) 41px),
+                repeating-linear-gradient(90deg, rgba(243, 230, 0, 0.025) 0px, transparent 1px, transparent 40px, rgba(243, 230, 0, 0.025) 41px);
+            z-index: -1;
+            animation: gridScroll 30s linear infinite;
+        }
+
+        @keyframes gridScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(252, 238, 9, 0.15);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow), 2px 2px 0px rgba(0, 0, 0, 0.8);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            z-index: 1001;
+        }
+        
+        .logo::before {
+            content: '> ';
+            color: var(--neon-pink);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #55ead4;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        nav ul li a:hover {
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        nav ul li a.active {
+            color: var(--neon-yellow);
+            font-weight: bold;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--neon-yellow);
+            margin: 3px 0;
+            transition: all 0.3s;
+            box-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 8rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 5%;
+            padding-right: 5%;
+            padding-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 15px var(--neon-yellow);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .page-intro {
+            text-align: center;
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Hourly Rate Section */
+        .hourly-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 2px solid rgba(85, 234, 212, 0.3);
+            padding: 3rem;
+            margin-bottom: 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hourly-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-yellow));
+        }
+
+        .hourly-section h2 {
+            font-size: 2rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .hourly-rate {
+            font-size: 4rem;
+            color: var(--neon-yellow);
+            font-weight: bold;
+            text-shadow: 0 0 20px var(--neon-yellow);
+            margin: 1rem 0;
+        }
+
+        .hourly-rate span {
+            font-size: 2rem;
+            color: #c0c0c0;
+        }
+
+        .hourly-description {
+            color: #c0c0c0;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hourly-includes {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .hourly-item {
+            text-align: center;
+        }
+
+        .hourly-item-icon {
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .hourly-item-text {
+            color: #d0d0d0;
+            font-size: 0.95rem;
+        }
+
+        /* Packages Section */
+        .packages-section h2 {
+            font-size: 2.5rem;
+            color: var(--neon-yellow);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 15px var(--neon-yellow);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .package-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 2px solid rgba(197, 0, 60, 0.3);
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-pink);
+            box-shadow: 0 15px 40px rgba(197, 0, 60, 0.4);
+        }
+
+        .package-card.featured {
+            border-color: var(--neon-yellow);
+            border-width: 3px;
+        }
+
+        .package-card.featured::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--neon-yellow);
+            color: #000;
+            padding: 0.3rem 1.5rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .package-name {
+            font-size: 1.8rem;
+            color: var(--neon-pink);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .package-price {
+            font-size: 3rem;
+            color: var(--neon-yellow);
+            font-weight: bold;
+            margin: 1rem 0;
+            text-shadow: 0 0 15px var(--neon-yellow);
+        }
+
+        .package-duration {
+            color: #808080;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .package-description {
+            color: #c0c0c0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .package-features li {
+            color: #d0d0d0;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .package-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--neon-cyan);
+            font-weight: bold;
+        }
+
+        .package-cta {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+
+        .package-cta:hover {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .package-card.featured .package-cta {
+            border-color: var(--neon-yellow);
+            color: var(--neon-yellow);
+        }
+
+        .package-card.featured .package-cta:hover {
+            background: var(--neon-yellow);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-yellow);
+        }
+
+        /* Custom Projects */
+        .custom-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 2px solid rgba(243, 230, 0, 0.3);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .custom-section h2 {
+            font-size: 2rem;
+            color: var(--neon-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .custom-section p {
+            color: #c0c0c0;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .custom-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+
+        .custom-cta:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(197, 0, 60, 0.2);
+            background: var(--darker-bg);
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                max-width: 300px;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 6rem 2rem 2rem;
+                gap: 2rem;
+                transition: right 0.3s ease-in-out;
+                border-left: 2px solid var(--neon-yellow);
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .hourly-rate {
+                font-size: 3rem;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hourly-section, .custom-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <header>
+        <nav>
+            <a href="index.html" style="text-decoration: none;"><div class="logo">ANDREI IACOBESCU</div></a>
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navLinks">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="case-studies.html">Case Studies</a></li>
+                <li><a href="pricing.html" class="active">Pricing</a></li>
+                <li><a href="index.html#certifications">Certifications</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Pricing</h1>
+        <p class="page-intro">Flexible pricing for your IAM and security needs</p>
+
+        <!-- Hourly Rate -->
+        <div class="hourly-section">
+            <h2>Hourly Consulting</h2>
+            <div class="hourly-rate">$85<span>/hour</span></div>
+            <p class="hourly-description">Perfect for ongoing support, technical assessments, security audits, and ad-hoc consulting work.</p>
+            <div class="hourly-includes">
+                <div class="hourly-item">
+                    <div class="hourly-item-icon">🔧</div>
+                    <div class="hourly-item-text">Technical Support</div>
+                </div>
+                <div class="hourly-item">
+                    <div class="hourly-item-icon">📊</div>
+                    <div class="hourly-item-text">Security Assessments</div>
+                </div>
+                <div class="hourly-item">
+                    <div class="hourly-item-icon">💬</div>
+                    <div class="hourly-item-text">Strategy Consulting</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fixed Packages -->
+        <div class="packages-section">
+            <h2>Fixed-Price Packages</h2>
+            <div class="packages-grid">
+                
+                <div class="package-card">
+                    <h3 class="package-name">MFA Implementation</h3>
+                    <div class="package-price">$4,500</div>
+                    <div class="package-duration">Typical timeline: 3-4 weeks</div>
+                    <p class="package-description">Get your team secured with multi-factor authentication</p>
+                    <ul class="package-features">
+                        <li>Auth0 or Okta setup and configuration</li>
+                        <li>User enrollment process design</li>
+                        <li>SMS and authenticator app integration</li>
+                        <li>Documentation and training</li>
+                        <li>2 months post-implementation support</li>
+                    </ul>
+                    <a href="index.html#contact" class="package-cta">Get Started</a>
+                </div>
+
+                <div class="package-card featured">
+                    <h3 class="package-name">Access Automation</h3>
+                    <div class="package-price">$12,000</div>
+                    <div class="package-duration">Typical timeline: 6-8 weeks</div>
+                    <p class="package-description">Automate your access provisioning and save time</p>
+                    <ul class="package-features">
+                        <li>ServiceNow workflow design and build</li>
+                        <li>Role-based access control setup</li>
+                        <li>Active Directory / Azure AD integration</li>
+                        <li>Automated provisioning and deprovisioning</li>
+                        <li>Custom reporting dashboards</li>
+                        <li>3 months support and adjustments</li>
+                    </ul>
+                    <a href="index.html#contact" class="package-cta">Get Started</a>
+                </div>
+
+                <div class="package-card">
+                    <h3 class="package-name">Full IAM Project</h3>
+                    <div class="package-price">$25,000+</div>
+                    <div class="package-duration">Typical timeline: 3-6 months</div>
+                    <p class="package-description">Complete identity governance transformation</p>
+                    <ul class="package-features">
+                        <li>Full IAM platform implementation</li>
+                        <li>Identity lifecycle management</li>
+                        <li>Access certification campaigns</li>
+                        <li>Compliance reporting and auditing</li>
+                        <li>Multi-system integrations</li>
+                        <li>Training and knowledge transfer</li>
+                        <li>6 months extended support</li>
+                    </ul>
+                    <a href="index.html#contact" class="package-cta">Get Started</a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Custom Projects -->
+        <div class="custom-section">
+            <h2>Need Something Different?</h2>
+            <p>Every organization has unique requirements. Let's discuss your specific needs and create a custom solution.</p>
+            <a href="index.html#contact" class="custom-cta">Let's Talk</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Andrei Iacobescu. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            if (mobileMenuToggle && navLinks) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    mobileMenuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                document.querySelectorAll('nav ul li a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!navLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        mobileMenuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+        });
+
+        // Handle CTA button clicks
+        document.querySelectorAll('a[href*="#contact"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'index.html#contact';
+            });
+        });
+    </script>
+</body>
+</html>

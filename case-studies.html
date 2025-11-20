@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Studies | Andrei Iacobescu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-yellow: #f3e600;
+            --neon-pink: #c5003c;
+            --neon-red: #880425;
+            --neon-cyan: #55ead4;
+            --dark-bg: #000000;
+            --darker-bg: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.7);
+            --text-primary: #f3e600;
+            --text-secondary: #55ead4;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(197, 0, 60, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(243, 230, 0, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 20%, rgba(85, 234, 212, 0.04) 0%, transparent 50%),
+                        radial-gradient(circle at 30% 40%, rgba(197, 0, 60, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 70% 60%, rgba(243, 230, 0, 0.1) 0%, transparent 40%),
+                        #000000;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(197, 0, 60, 0.025) 0px, transparent 1px, transparent 40px, rgba(197, 0, 60, 0.025) 41px),
+                repeating-linear-gradient(90deg, rgba(243, 230, 0, 0.025) 0px, transparent 1px, transparent 40px, rgba(243, 230, 0, 0.025) 41px),
+                repeating-linear-gradient(45deg, rgba(85, 234, 212, 0.02) 0px, transparent 1px, transparent 80px, rgba(85, 234, 212, 0.02) 81px);
+            z-index: -1;
+            animation: gridScroll 30s linear infinite;
+        }
+
+        @keyframes gridScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(252, 238, 9, 0.15);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow), 2px 2px 0px rgba(0, 0, 0, 0.8);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            z-index: 1001;
+        }
+        
+        .logo::before {
+            content: '> ';
+            color: var(--neon-pink);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #55ead4;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        nav ul li a:hover {
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        nav ul li a.active {
+            color: var(--neon-yellow);
+            font-weight: bold;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--neon-yellow);
+            margin: 3px 0;
+            transition: all 0.3s;
+            box-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        .back-link {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 5px;
+        }
+
+        .back-link:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 8rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 15px var(--neon-yellow);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .page-intro {
+            text-align: center;
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Case Studies */
+        .case-study {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 2px solid rgba(197, 0, 60, 0.3);
+            margin-bottom: 3rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .case-study:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 15px 40px rgba(197, 0, 60, 0.4);
+        }
+
+        .case-study-header {
+            background: linear-gradient(135deg, rgba(197, 0, 60, 0.2) 0%, rgba(243, 230, 0, 0.1) 100%);
+            padding: 2.5rem;
+            border-bottom: 2px solid rgba(243, 230, 0, 0.3);
+            position: relative;
+        }
+
+        .case-study-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-yellow), var(--neon-cyan));
+        }
+
+        .case-study-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .case-study-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(197, 0, 60, 0.3);
+            border: 1px solid var(--neon-pink);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--neon-pink);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .case-study-title {
+            font-size: 2rem;
+            color: var(--neon-yellow);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .case-study-subtitle {
+            font-size: 1.1rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .case-study-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: var(--neon-yellow);
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #c0c0c0;
+            margin-top: 0.3rem;
+        }
+
+        .case-study-body {
+            padding: 2.5rem;
+        }
+
+        .case-section {
+            margin-bottom: 2rem;
+        }
+
+        .case-section h4 {
+            font-size: 1.3rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .case-section h4::before {
+            content: '▸';
+            color: var(--neon-pink);
+            font-size: 1.5rem;
+        }
+
+        .case-section p {
+            color: #c0c0c0;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .case-section ul {
+            list-style: none;
+            margin-left: 1rem;
+        }
+
+        .case-section ul li {
+            color: #d0d0d0;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .case-section ul li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--neon-cyan);
+        }
+
+        .case-technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+
+        .case-tech-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(85, 234, 212, 0.15);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(197, 0, 60, 0.2);
+            background: var(--darker-bg);
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 70%;
+                max-width: 300px;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 6rem 2rem 2rem;
+                gap: 2rem;
+                transition: right 0.3s ease-in-out;
+                border-left: 2px solid var(--neon-yellow);
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .case-study-title {
+                font-size: 1.5rem;
+            }
+
+            .case-study-stats {
+                gap: 1rem;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .case-study-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <header>
+        <nav>
+            <a href="index.html" style="text-decoration: none;"><div class="logo">ANDREI IACOBESCU</div></a>
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navLinks">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="case-studies.html">Case Studies</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="index.html#certifications">Certifications</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Case Studies</h1>
+        <p class="page-intro">Deep dives into real IAM and security projects I've worked on</p>
+
+        <div class="case-study">
+            <div class="case-study-header">
+                <div class="case-study-meta">
+                    <span class="case-study-tag">IAM</span>
+                    <span class="case-study-tag">ServiceNow</span>
+                </div>
+                <h3 class="case-study-title">Streamlining Access Management for Financial Services Company</h3>
+                <p class="case-study-subtitle">Fixing broken provisioning workflows and reducing ticket backlog</p>
+                <div class="case-study-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">2,000+</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">40%</div>
+                        <div class="stat-label">Fewer Tickets</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3 Weeks</div>
+                        <div class="stat-label">Down to 2 Days</div>
+                    </div>
+                </div>
+            </div>
+            <div class="case-study-body">
+                <div class="case-section">
+                    <h4>The Problem</h4>
+                    <p>When I joined the IAM team, our access provisioning process was a mess. New hires would wait 2-3 weeks for their accounts because everything went through manual tickets. The ServiceNow workflows weren't connected properly to Active Directory, so IT had to manually create accounts in multiple systems. Managers were constantly pinging us asking why their new employees couldn't access anything.</p>
+                    <p>We had about 200-300 access requests sitting in the queue at any given time, and half of them had errors or missing information. Nobody wanted to touch the old workflows because they were held together with duct tape.</p>
+                </div>
+
+                <div class="case-section">
+                    <h4>What I Did</h4>
+                    <p>First thing was mapping out what was actually broken. Turned out the ServiceNow integration with AD was using an outdated API that kept timing out. I rebuilt the connection using REST APIs and added proper error handling.</p>
+                    <p>Then I redesigned the request form to catch common mistakes before submission - stuff like wrong email format or missing department codes. Added automated approvals for standard roles instead of routing everything through managers.</p>
+                    <p>The biggest win was setting up role templates in One Identity. Instead of IT manually granting 15 different permissions for a "Sales Rep", they just assign the Sales Rep role and it provisions everything automatically.</p>
+                </div>
+
+                <div class="case-section">
+                    <h4>What Changed</h4>
+                    <ul>
+                        <li>New hire provisioning went from 3 weeks to 2 days average</li>
+                        <li>Access request tickets dropped by about 40% because the form catches errors upfront</li>
+                        <li>IT team stopped getting angry emails from managers</li>
+                        <li>We can actually handle onboarding spikes now without everything breaking</li>
+                        <li>Offboarding got faster too - when someone leaves, all their access gets revoked automatically instead of lingering for months</li>
+                    </ul>
+                </div>
+
+                <div class="case-section">
+                    <h4>Tech Stack</h4>
+                    <div class="case-technologies">
+                        <span class="case-tech-badge">ServiceNow</span>
+                        <span class="case-tech-badge">One Identity Manager</span>
+                        <span class="case-tech-badge">Active Directory</span>
+                        <span class="case-tech-badge">Azure AD</span>
+                        <span class="case-tech-badge">PowerShell</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="case-study">
+            <div class="case-study-header">
+                <div class="case-study-meta">
+                    <span class="case-study-tag">Auth0</span>
+                    <span class="case-study-tag">Security</span>
+                </div>
+                <h3 class="case-study-title">Implementing MFA for Remote Workforce</h3>
+                <p class="case-study-subtitle">Adding multi-factor authentication without pissing off 1,500 users</p>
+                <div class="case-study-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1,500</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Adoption Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2 Months</div>
+                        <div class="stat-label">Rollout Time</div>
+                    </div>
+                </div>
+            </div>
+            <div class="case-study-body">
+                <div class="case-section">
+                    <h4>Why We Did This</h4>
+                    <p>After a phishing incident where someone's credentials got stolen and used to access internal systems, management finally agreed we needed MFA. Problem was, our authentication was a custom-built mess from 2015 that nobody really understood anymore.</p>
+                    <p>We were already planning to move to Auth0 anyway, so this became the perfect excuse to actually do it. Had to convince everyone that yes, it's worth paying for a proper solution instead of trying to bolt MFA onto our existing spaghetti code.</p>
+                </div>
+
+                <div class="case-section">
+                    <h4>How We Rolled It Out</h4>
+                    <p>Started with IT and security teams as guinea pigs. They found a bunch of issues - authenticator app QR codes not working on older phones, SMS delivery being slow in some countries, that kind of thing. Fixed most of it before going wider.</p>
+                    <p>Rolled out to everyone else in waves. Sales team first (they travel a lot and use public WiFi), then engineering, then everyone else. Made it optional for the first month so people could get used to it, then made it mandatory.</p>
+                    <p>The key was making the enrollment process dead simple. One email with a link, scan QR code, done. If it takes more than 2 minutes, people won't do it.</p>
+                </div>
+
+                <div class="case-section">
+                    <h4>What Actually Happened</h4>
+                    <ul>
+                        <li>Got 95% of people enrolled within 3 weeks (the other 5% needed hand-holding)</li>
+                        <li>Support tickets for "I can't log in" actually went down because people stopped forgetting passwords</li>
+                        <li>Blocked a few suspicious login attempts from weird locations that would've succeeded before</li>
+                        <li>Some complaints about the extra step, but most people got used to it</li>
+                        <li>Had to set up a few hardware tokens for people who refused to use their personal phones</li>
+                    </ul>
+                </div>
+
+                <div class="case-section">
+                    <h4>Lessons Learned</h4>
+                    <p>SMS backup codes are clutch - saved us when people lost their phones or switched devices. Also learned to exclude service accounts from MFA requirements after breaking a few automated jobs. And testing on actual mobile devices (not just desktop) is critical because that's how most people enroll.</p>
+                </div>
+
+                <div class="case-section">
+                    <h4>Tech Stack</h4>
+                    <div class="case-technologies">
+                        <span class="case-tech-badge">Auth0</span>
+                        <span class="case-tech-badge">TOTP (Authenticator Apps)</span>
+                        <span class="case-tech-badge">SMS Backup</span>
+                        <span class="case-tech-badge">OAuth 2.0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Andrei Iacobescu. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            if (mobileMenuToggle && navLinks) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    mobileMenuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                document.querySelectorAll('nav ul li a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!navLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        mobileMenuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+        });
+
+        // Handle navigation to contact section
+        document.querySelectorAll('a[href*="#contact"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'index.html#contact';
+            });
+        });
+    </script>
+</body>
+</html>
